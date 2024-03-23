@@ -8,6 +8,7 @@ import { AppDataSource } from "./data-source";
 import api from "./api";
 
 import dotenv from "dotenv";
+
 dotenv.config({ path: __dirname + "/../.env" });
 
 AppDataSource.initialize().then(async () => {

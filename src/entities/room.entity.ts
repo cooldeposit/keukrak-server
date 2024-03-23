@@ -1,5 +1,12 @@
 import { Entity, Column, PrimaryGeneratedColumn } from "typeorm";
 import "reflect-metadata";
+import { randomNickname } from "../utils/randomNickname";
+
+interface NicknameType {
+  icon: string;
+  name: string;
+  color: string;
+}
 
 @Entity("room")
 export class Room {
@@ -15,10 +22,17 @@ export class Room {
     username: string;
     isOnline: boolean;
     isAdmin: boolean;
+
+    nickname: NicknameType;
   }[];
 
   @Column("jsonb", { default: [] })
-  chats!: { message: string; created_at: Date; userId: string }[];
+  chats!: {
+    message: string;
+    created_at: Date;
+    userId: string;
+    nickname: NicknameType;
+  }[];
 
   @Column("text", { default: "" })
   concept!: string;
@@ -28,4 +42,7 @@ export class Room {
 
   @Column("int", { default: -1 })
   currentQuestion!: number;
+
+  @Column("text", { default: randomNickname() })
+  aiNickname!: NicknameType;
 }

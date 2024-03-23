@@ -3,6 +3,7 @@ import { AppDataSource } from "../../data-source";
 import { Room } from "../../entities/room.entity";
 import { generateUUID } from "../../utils/generateUUID";
 import { randomConcept, randomQuestions } from "../../utils/randomConcept";
+import { randomNickname } from "../../utils/randomNickname";
 
 export const create = async (ctx: Context) => {
   const { name }: { name: string } = ctx.request.body;
@@ -18,6 +19,7 @@ export const create = async (ctx: Context) => {
         username: name,
         isOnline: true,
         isAdmin: true,
+        nickname: randomNickname(),
       },
     ],
     questions,
@@ -34,7 +36,9 @@ export const changeConnect = async (ctx: Context) => {
   const { userId, connect }: { userId: string; connect: boolean } =
     ctx.request.body;
 
-  const room = await AppDataSource.getRepository(Room).findOne(roomId);
+  const room = await AppDataSource.getRepository(Room).findOne({
+    where: { id: roomId },
+  });
   if (!room) {
     ctx.status = 404;
     return;
@@ -64,11 +68,15 @@ export const enterRoom = async (ctx: Context) => {
   }
 
   const id = generateUUID();
+
+  const nickname = randomNickname();
+
   room.users.push({
     id,
     username: name,
     isOnline: true,
     isAdmin: false,
+    nickname,
   });
   await AppDataSource.getRepository(Room).save(room);
   ctx.body = { userId: id, concept: room.concept };
@@ -87,7 +95,20 @@ export const getRoom = async (ctx: Context) => {
     ctx.status = 404;
     return;
   }
-  ctx.body = room;
+  ctx.body = {
+    ...room,
+    users: room.users.map((user) => ({
+      id: user.id,
+      username: user.username,
+      isOnline: user.isOnline,
+      isAdmin: user.isAdmin,
+    })),
+    chats: room.chats.map((chat) => ({
+      message: chat.message,
+      nickname: room.users.find((user) => user.id === chat.userId)?.nickname,
+      created_ad: chat.created_at,
+    })),
+  };
   ctx.status = 200;
 };
 
@@ -110,5 +131,8 @@ export const nextQuestion = async (ctx: Context) => {
 
   room.currentQuestion += 1;
   await AppDataSource.getRepository(Room).save(room);
-  ctx.body = { question: room.questions[room.currentQuestion] };
+  ctx.body = {
+    question: room.questions[room.currentQuestion],
+    index: room.currentQuestion,
+  };
 };

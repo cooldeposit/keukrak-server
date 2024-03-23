@@ -25,6 +25,7 @@ export const addChat = async (ctx: Context) => {
         created_at: new Date(),
         userId,
         message,
+        nickname: roomItem.users.find((user) => user.id === userId)?.nickname,
       },
     ],
   });
