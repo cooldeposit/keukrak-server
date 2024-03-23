@@ -12,7 +12,6 @@ import {
 } from "../../ws/sendWebSoket";
 import { RULE as rule } from "../../constants/rule";
 import { getAnswer } from "../../utils/openai";
-import { ADMIN_NICKNAME } from "../../constants/admin";
 
 export const create = async (ctx: Context) => {
   const { name }: { name: string } = ctx.request.body;
@@ -169,25 +168,27 @@ export const nextQuestion = async (ctx: Context) => {
       room.users.map((user) => user.username)
     );
 
-    const sroom = await AppDataSource.getRepository(Room).findOne({
-      where: { id: roomId },
-    });
-    sroom.chats = [
-      ...sroom.chats,
-      ...r.map((message) => ({
-        message,
-        userId: "ai",
-        created_at: new Date(),
-        nickname: sroom.aiNickname,
-      })),
-    ];
-    await AppDataSource.getRepository(Room).save(sroom);
-
     r.map((message, i) => {
       setTimeout(async () => {
         sendAdmin(message, room.id);
       }, 2000 * (i + 1) + 2000);
     });
+
+    setTimeout(async () => {
+      const sroom = await AppDataSource.getRepository(Room).findOne({
+        where: { id: roomId },
+      });
+      sroom.chats = [
+        ...sroom.chats,
+        ...r.map((message) => ({
+          message,
+          userId: "ai",
+          created_at: new Date(),
+          nickname: sroom.aiNickname,
+        })),
+      ];
+      await AppDataSource.getRepository(Room).save(sroom);
+    }, 2000 * r.length + 2000);
   }
 
   const r = await getAnswer(
