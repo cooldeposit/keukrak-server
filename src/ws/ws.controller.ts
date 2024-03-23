@@ -8,17 +8,17 @@ export const ws = async (ctx: Context) => {
 
   ctx.websocket.on("message", (message) => {
     try {
+      console.log(message.toString());
       const parsed = JSON.parse(message.toString());
 
       if (parsed.type === "server") {
         console.log(sockets.length);
         sockets.forEach((socket) => {
-          console.log("Server message received.");
           socket.send(parsed.payload);
         });
       } else {
         sockets.forEach((socket) => {
-          socket.send(message);
+          socket.send(message.toString());
         });
       }
     } catch (e) {

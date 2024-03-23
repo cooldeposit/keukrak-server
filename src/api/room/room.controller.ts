@@ -129,10 +129,9 @@ export const nextQuestion = async (ctx: Context) => {
 
   if (room.currentQuestion + 1 >= room.questions.length) {
     ctx.status = 400;
+    // TODO: POLL
     return;
   }
-
-  console.log(room.currentQuestion);
 
   room.currentQuestion += 1;
 
@@ -149,37 +148,43 @@ export const nextQuestion = async (ctx: Context) => {
       room.users.map((user) => user.username)
     );
 
-    room.chats = [
-      ...room.chats,
-      ...r.map((message) => ({
-        message,
-        userId: room.users.find((user) => user.isAdmin)?.id,
-        created_at: new Date(),
-        nickname: ADMIN_NICKNAME,
-      })),
-    ];
-    AppDataSource.getRepository(Room).save(room);
-
     r.map((message, i) => {
       setTimeout(() => {
         sendAdmin(message, room.id);
       }, 2000 * (i + 1));
     });
+    setTimeout(() => {
+      room.chats = [
+        ...room.chats,
+        ...r.map((message) => ({
+          message,
+          userId: room.users.find((user) => user.isAdmin)?.id,
+          created_at: new Date(),
+          nickname: ADMIN_NICKNAME,
+        })),
+      ];
+      AppDataSource.getRepository(Room).save(room);
+    }, r.length * 2000 + 1000);
   }
 
   const r = await getAnswer(room.concept, room.questions[room.currentQuestion]);
-  room.chats = [
-    ...room.chats,
-    {
-      message: r,
-      userId: "ai",
-      created_at: new Date(),
-      nickname: room.aiNickname,
-    },
-  ];
-  AppDataSource.getRepository(Room).save(room);
 
-  setTimeout(() => {
-    sendAI(r, room.id, room.aiNickname);
-  }, Math.random() * 1000 + r.length * 200 + 1000);
+  setTimeout(
+    () => {
+      sendAI(r, room.id, room.aiNickname);
+      room.chats = [
+        ...room.chats,
+        {
+          message: r,
+          userId: "ai",
+          created_at: new Date(),
+          nickname: room.aiNickname,
+        },
+      ];
+      AppDataSource.getRepository(Room).save(room);
+    },
+    room.currentQuestion === 0
+      ? 10000
+      : 4000 + Math.random() * 1000 + r.length * 500
+  );
 };
