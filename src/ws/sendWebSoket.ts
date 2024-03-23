@@ -1,9 +1,25 @@
-import WebSocket from "ws";
 import { MessageType, NicknameType } from "../types/message";
 import { ADMIN_NICKNAME } from "../constants/admin";
+import { WebSocket } from "ws";
+
+function createSocket() {
+  const socket = new WebSocket("ws://localhost:4001");
+  socket.onmessage = (msg) => console.log(msg);
+  socket.onopen = () => console.log("connected to socket");
+  return socket;
+}
+const s = createSocket();
+
+const send = (a: string) =>
+  s.send(
+    JSON.stringify({
+      type: "server",
+      payload: a,
+    })
+  );
 
 export const sendAdmin = (message: string, id: string) => {
-  /* ws.send(
+  send(
     JSON.stringify({
       type: "message",
       id,
@@ -12,7 +28,7 @@ export const sendAdmin = (message: string, id: string) => {
         content: message,
       },
     } as MessageType)
-  ); */
+  );
 };
 
 export const sendAI = (
@@ -20,7 +36,7 @@ export const sendAI = (
   id: string,
   aiNickname: NicknameType
 ) => {
-  /*  ws.send(
+  send(
     JSON.stringify({
       type: "message",
       id,
@@ -29,5 +45,5 @@ export const sendAI = (
         content: message,
       },
     } as MessageType)
-  ); */
+  );
 };

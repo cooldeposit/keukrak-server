@@ -3,6 +3,6 @@ import * as Controller from "./ws.controller";
 
 const wsRouter = new Router();
 
-wsRouter.get("/ws", Controller.ws);
+wsRouter.get("/", Controller.ws);
 
 export default wsRouter;

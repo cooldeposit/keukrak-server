@@ -14,8 +14,15 @@ import ws from "./ws";
 
 dotenv.config({ path: __dirname + "/../.env" });
 
+const socket = websockify(new Koa());
+socket.ws.use(ws.routes()).use(ws.allowedMethods());
+
+socket.listen(4001, () => {
+  console.log("socket is listening to port 4001");
+});
+
 AppDataSource.initialize().then(async () => {
-  const app = websockify(new Koa());
+  const app = new Koa();
   const router = new Router();
 
   app.use(
@@ -45,7 +52,7 @@ AppDataSource.initialize().then(async () => {
 
   router.use("/api", api.routes());
   app.use(router.routes()).use(router.allowedMethods());
-  app.ws.use(ws.routes()).use(ws.allowedMethods());
+  // app.ws.use(ws.routes()).use(ws.allowedMethods());
 
   app.listen(4000, () => {
     console.log("server is listening to port 4000");

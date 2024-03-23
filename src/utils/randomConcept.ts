@@ -40,7 +40,7 @@ const QUESTIONS = [
 ];
 
 export const randomQuestions = () => {
-  const N = 3;
+  const N = 5;
 
   const result = [];
   const copy = [...QUESTIONS];
