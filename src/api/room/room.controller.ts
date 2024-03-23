@@ -183,7 +183,7 @@ export const nextQuestion = async (ctx: Context) => {
             nickname: ADMIN_NICKNAME,
           },
         ];
-        AppDataSource.getRepository(Room).save(sroom);
+        await AppDataSource.getRepository(Room).save(sroom);
       }, 2000 * (i + 1) + 2000);
     });
   }
@@ -204,10 +204,10 @@ export const nextQuestion = async (ctx: Context) => {
         message: r,
         userId: "ai",
         created_at: new Date(),
-        nickname: room.aiNickname,
+        nickname: sroom.aiNickname,
       },
     ];
-    AppDataSource.getRepository(Room).save(sroom);
+    await AppDataSource.getRepository(Room).save(sroom);
   }, (room.currentQuestion === 0 ? 6000 : 4000) + Math.random() * 4000 + r.length * 500);
 };
 
