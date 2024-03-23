@@ -167,22 +167,17 @@ export const nextQuestion = async (ctx: Context) => {
 
   const r = await getAnswer(room.concept, room.questions[room.currentQuestion]);
 
-  setTimeout(
-    () => {
-      sendAI(r, room.id, room.aiNickname);
-      room.chats = [
-        ...room.chats,
-        {
-          message: r,
-          userId: "ai",
-          created_at: new Date(),
-          nickname: room.aiNickname,
-        },
-      ];
-      AppDataSource.getRepository(Room).save(room);
-    },
-    room.currentQuestion === 0
-      ? 20000
-      : 8000 + Math.random() * 1000 + r.length * 500
-  );
+  setTimeout(() => {
+    sendAI(r, room.id, room.aiNickname);
+    room.chats = [
+      ...room.chats,
+      {
+        message: r,
+        userId: "ai",
+        created_at: new Date(),
+        nickname: room.aiNickname,
+      },
+    ];
+    AppDataSource.getRepository(Room).save(room);
+  }, (room.currentQuestion === 0 ? 20000 : 8000) + Math.random() * 1000 + r.length * 500);
 };
