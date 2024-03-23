@@ -199,7 +199,7 @@ export const nextQuestion = async (ctx: Context) => {
       where: { id: roomId },
     });
     sroom.chats = [
-      ...room.chats,
+      ...sroom.chats,
       {
         message: r,
         userId: "ai",
