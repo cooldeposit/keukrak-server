@@ -2,6 +2,7 @@ import { Entity, Column, PrimaryGeneratedColumn } from "typeorm";
 import "reflect-metadata";
 import { randomNickname } from "../utils/randomNickname";
 import { NicknameType } from "../types/message";
+import { randomConcept } from "../utils/randomConcept";
 
 @Entity("room")
 export class Room {
@@ -29,8 +30,11 @@ export class Room {
     nickname: NicknameType;
   }[];
 
-  @Column("text", { default: "" })
-  concept!: string;
+  @Column("jsonb", { default: randomConcept() })
+  concept!: {
+    kor: string;
+    eng: string;
+  };
 
   @Column("jsonb", { default: [] })
   questions!: string[];
@@ -43,4 +47,13 @@ export class Room {
 
   @Column("boolean", { default: false })
   flag!: boolean;
+
+  @Column("jsonb", { default: [] })
+  poll: {
+    userId: string;
+    answers: {
+      nickname: string;
+      id: string;
+    }[];
+  }[];
 }

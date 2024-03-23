@@ -1,24 +1,44 @@
 const CONCEPTS = [
-  "AI인 척 행동해보세요",
-  "초등학교 3학년인 척 행동해보세요",
-  "고등학교 3학년 수험생인 척 행동해보세요",
-  "취준 중인 대학교 졸업생인 척 행동해보세요",
-  "이기적이고 무례한 사람인 척 행동해보세요",
-  "유명한 연예인인 척 행동해보세요",
-  "어제 연인과 헤어진 사람인 척 행동해보세요",
-  "컴퓨터 전공 대학생인 척 행동해보세요",
-  "대학 교수인 척 행동해보세요",
-  "금요일에 야근하는 직장인처럼 행동해보세요",
-  "한국에 처음 놀러 온 미국인처럼 행동해보세요",
-  "온라인 커뮤니티 말투로 대화해보세요",
-  "내일 입대하는 남자처럼 행동해보세요",
-  "조선시대 사람처럼 행동해보세요",
-  "연인에게 말하는 것처럼 대화해보세요",
-  "50대 아주머니/아저씨처럼 행동해보세요",
-  "처음 만난 사람들처럼 대화해보세요",
-  "지나치게 말을 길게 하는 사람처럼 대화해보세요",
-  "모든 말을 짧게 하는 말투로 대화해보세요",
-  "활기차고 상냥한 사람처럼 행동해보세요",
+  {
+    kor: "초등학교 3학년 어린이",
+    eng: "third-grade elementary school child",
+  },
+  {
+    kor: "유명 연예인",
+    eng: "famous celebrity",
+  },
+  {
+    kor: "컴퓨터 전공 대학생",
+    eng: "college student majoring in computers",
+  },
+  {
+    kor: "대학 교수",
+    eng: "university professor",
+  },
+  {
+    kor: "한국에 처음 놀러 온 미국인",
+    eng: "American who came to South Korea for the first time in his/her life",
+  },
+  {
+    kor: "온라인 커뮤니티 속 유저",
+    eng: "users in the online community",
+  },
+  {
+    kor: "조선시대 사람",
+    eng: "person of the Joseon Dynasty",
+  },
+  {
+    kor: "50대 아주머니/아저씨",
+    eng: "old lady / man in her / his 50s",
+  },
+  {
+    kor: "모든 말을 짧게 하는 사람",
+    eng: "person who talks too short",
+  },
+  {
+    kor: "활기차고 상냥한 사람",
+    eng: "lively and sweet person",
+  },
 ];
 
 export const randomConcept = () => {

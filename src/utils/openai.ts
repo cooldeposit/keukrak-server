@@ -1,5 +1,9 @@
 import OpenAI from "openai";
-import { ANSWER_SYSTEM, ANSWER_ASSISTANT } from "../constants/prompt";
+import {
+  ANSWER_SYSTEM,
+  ANSWER_ASSISTANT,
+  ANSWER_USER,
+} from "../constants/prompt";
 
 import dotenv from "dotenv";
 dotenv.config({ path: __dirname + "/../../.env" });
@@ -19,7 +23,7 @@ export const getAnswer = async (concept: string, question: string) => {
       },
       {
         role: "user",
-        content: question,
+        content: ANSWER_USER(question),
       },
     ],
     model: "gpt-4",

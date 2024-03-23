@@ -56,3 +56,27 @@ export const sendPoll = (id: string) => {
     })
   );
 };
+
+export const sendPollResult = (
+  id: string,
+  payload: {
+    userId: string;
+    nickname: NicknameType;
+    score: number;
+    result: {
+      guessAI: boolean;
+      friends: {
+        name: string;
+        correct: boolean;
+      }[];
+    };
+  }[]
+) => {
+  send(
+    JSON.stringify({
+      type: "pollend",
+      id,
+      payload,
+    })
+  );
+};

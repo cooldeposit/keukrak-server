@@ -4,7 +4,12 @@ import { Room } from "../../entities/room.entity";
 import { generateUUID } from "../../utils/generateUUID";
 import { randomConcept, randomQuestions } from "../../utils/randomConcept";
 import { randomNickname } from "../../utils/randomNickname";
-import { sendAI, sendAdmin, sendPoll } from "../../ws/sendWebSoket";
+import {
+  sendAI,
+  sendAdmin,
+  sendPoll,
+  sendPollResult,
+} from "../../ws/sendWebSoket";
 import { RULE as rule } from "../../constants/rule";
 import { getAnswer } from "../../utils/openai";
 import { ADMIN_NICKNAME } from "../../constants/admin";
@@ -113,6 +118,7 @@ export const getRoom = async (ctx: Context) => {
       nickname: chat.nickname,
       created_ad: chat.created_at,
     })),
+    concept: room.concept.kor,
   };
   ctx.status = 200;
 };
@@ -144,7 +150,7 @@ export const nextQuestion = async (ctx: Context) => {
 
   if (room.currentQuestion === 0) {
     const r = rule(
-      room.concept,
+      room.concept.kor,
       room.users.map((user) => user.username)
     );
 
@@ -165,7 +171,10 @@ export const nextQuestion = async (ctx: Context) => {
     });
   }
 
-  const r = await getAnswer(room.concept, room.questions[room.currentQuestion]);
+  const r = await getAnswer(
+    room.concept.eng,
+    room.questions[room.currentQuestion]
+  );
 
   setTimeout(() => {
     sendAI(r, room.id, room.aiNickname);
@@ -180,4 +189,60 @@ export const nextQuestion = async (ctx: Context) => {
     ];
     AppDataSource.getRepository(Room).save(room);
   }, (room.currentQuestion === 0 ? 20000 : 8000) + Math.random() * 1000 + r.length * 500);
+};
+
+export const poll = async (ctx: Context) => {
+  const { roomId } = ctx.params;
+
+  const { userId, answers } = ctx.request.body as {
+    userId: string;
+    answers: { nickname: string; id: string }[];
+  };
+
+  const room = await AppDataSource.getRepository(Room).findOne({
+    where: { id: roomId },
+  });
+
+  if (!room) {
+    ctx.status = 404;
+    return;
+  }
+
+  room.poll.push({ userId, answers });
+
+  await AppDataSource.getRepository(Room).save(room);
+
+  if (room.poll.length === room.users.length) {
+    const result = room.poll.map((poll) => ({
+      userId: poll.userId,
+      nickname: room.users.find((user) => user.id === poll.userId)?.nickname,
+      result: {
+        guessAI:
+          poll.answers.find((answer) => answer.id === "ai")?.nickname ===
+          room.aiNickname.name,
+        friends: poll.answers.map((answer) => {
+          const correct = room.users.some(
+            (user) =>
+              user.id === answer.id && user.nickname.name === answer.nickname
+          );
+          const ans = room.users.find((user) => user.id === answer.id);
+          return { name: ans.username, correct: correct ? true : false };
+        }),
+      },
+      score: 0,
+    }));
+
+    result.map((r) => {
+      r.score = r.result.guessAI ? 1 : 0;
+      r.result.friends.map((f) => {
+        if (f.correct) {
+          r.score += 1;
+        }
+      });
+
+      r.score = (r.score / (room.users.length + 1)) * 100;
+    });
+
+    sendPollResult(room.id, result);
+  }
 };
