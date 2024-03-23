@@ -169,18 +169,21 @@ export const nextQuestion = async (ctx: Context) => {
     );
 
     r.map((message, i) => {
-      setTimeout(() => {
+      setTimeout(async () => {
         sendAdmin(message, room.id);
-        room.chats = [
-          ...room.chats,
+        const sroom = await AppDataSource.getRepository(Room).findOne({
+          where: { id: roomId },
+        });
+        sroom.chats = [
+          ...sroom.chats,
           {
             message,
-            userId: room.users.find((user) => user.isAdmin)?.id,
+            userId: sroom.users.find((user) => user.isAdmin)?.id,
             created_at: new Date(),
             nickname: ADMIN_NICKNAME,
           },
         ];
-        AppDataSource.getRepository(Room).save(room);
+        AppDataSource.getRepository(Room).save(sroom);
       }, 2000 * (i + 1) + 2000);
     });
   }
@@ -190,9 +193,12 @@ export const nextQuestion = async (ctx: Context) => {
     room.questions[room.currentQuestion]
   );
 
-  setTimeout(() => {
+  setTimeout(async () => {
     sendAI(r, room.id, room.aiNickname);
-    room.chats = [
+    const sroom = await AppDataSource.getRepository(Room).findOne({
+      where: { id: roomId },
+    });
+    sroom.chats = [
       ...room.chats,
       {
         message: r,
@@ -201,7 +207,7 @@ export const nextQuestion = async (ctx: Context) => {
         nickname: room.aiNickname,
       },
     ];
-    AppDataSource.getRepository(Room).save(room);
+    AppDataSource.getRepository(Room).save(sroom);
   }, (room.currentQuestion === 0 ? 6000 : 4000) + Math.random() * 4000 + r.length * 500);
 };
 
