@@ -151,20 +151,18 @@ export const nextQuestion = async (ctx: Context) => {
     r.map((message, i) => {
       setTimeout(() => {
         sendAdmin(message, room.id);
-      }, 2000 * (i + 1));
+        room.chats = [
+          ...room.chats,
+          {
+            message,
+            userId: room.users.find((user) => user.isAdmin)?.id,
+            created_at: new Date(),
+            nickname: ADMIN_NICKNAME,
+          },
+        ];
+        AppDataSource.getRepository(Room).save(room);
+      }, 2000 * (i + 1) + 2000);
     });
-    setTimeout(() => {
-      room.chats = [
-        ...room.chats,
-        ...r.map((message) => ({
-          message,
-          userId: room.users.find((user) => user.isAdmin)?.id,
-          created_at: new Date(),
-          nickname: ADMIN_NICKNAME,
-        })),
-      ];
-      AppDataSource.getRepository(Room).save(room);
-    }, r.length * 2000 + 1000);
   }
 
   const r = await getAnswer(room.concept, room.questions[room.currentQuestion]);
@@ -184,7 +182,7 @@ export const nextQuestion = async (ctx: Context) => {
       AppDataSource.getRepository(Room).save(room);
     },
     room.currentQuestion === 0
-      ? 10000
-      : 4000 + Math.random() * 1000 + r.length * 500
+      ? 20000
+      : 8000 + Math.random() * 1000 + r.length * 500
   );
 };
