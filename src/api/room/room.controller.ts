@@ -10,15 +10,6 @@ export const create = async (ctx: Context) => {
   const concept = randomConcept();
   const questions = randomQuestions();
 
-  console.log(
-    JSON.stringify({
-      id,
-      username: name,
-      isOnline: true,
-      isAdmin: true,
-    })
-  );
-
   const room = AppDataSource.getRepository(Room).create({
     concept,
     users: [
