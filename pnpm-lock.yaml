@@ -14,6 +14,9 @@ dependencies:
   '@types/koa':
     specifier: ^2.15.0
     version: 2.15.0
+  '@types/koa-websocket':
+    specifier: ^5.0.10
+    version: 5.0.10
   '@types/ws':
     specifier: ^8.5.10
     version: 8.5.10
@@ -29,6 +32,9 @@ dependencies:
   koa-router:
     specifier: ^12.0.1
     version: 12.0.1
+  koa-websocket:
+    specifier: ^7.0.0
+    version: 7.0.0
   openai:
     specifier: ^4.29.2
     version: 4.29.2
@@ -295,6 +301,14 @@ packages:
     resolution: {integrity: sha512-4Olc63RY+MKvxMwVknCUDhRQX1pFQoBZ/lXcRLP69PQkEpze/0cr8LNqJQe5NFb/b19DWi2a5bTi2VAlQzhJuA==}
     dependencies:
       '@types/koa': 2.15.0
+    dev: false
+
+  /@types/koa-websocket@5.0.10:
+    resolution: {integrity: sha512-yaqbFuyrw4eFchCHdOiyF1uhSe0nRv6xFAvVlxoG8Fq2/h+0IDjka3DyN2hJt29m6jr3+nlgsPTGh/Hd/tZmIg==}
+    dependencies:
+      '@types/koa': 2.15.0
+      '@types/koa-compose': 3.2.8
+      '@types/ws': 8.5.10
     dev: false
 
   /@types/koa@2.15.0:
@@ -1439,6 +1453,19 @@ packages:
       path-to-regexp: 6.2.1
     transitivePeerDependencies:
       - supports-color
+    dev: false
+
+  /koa-websocket@7.0.0:
+    resolution: {integrity: sha512-MsHUFKqA4+j+0dpPKWtsvZfnpQ1NcgF+AaTZQZ4B3Xj/cWK31qqmKx9HnA5Gw1LV2aIDzqwy0IDBsZYRurTUAg==}
+    dependencies:
+      co: 4.6.0
+      debug: 4.3.4
+      koa-compose: 4.1.0
+      ws: 8.16.0
+    transitivePeerDependencies:
+      - bufferutil
+      - supports-color
+      - utf-8-validate
     dev: false
 
   /koa@2.15.2:
