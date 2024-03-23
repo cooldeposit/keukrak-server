@@ -13,6 +13,8 @@ dotenv.config({ path: __dirname + "/../.env" });
 
 import { initWebSocket } from "./utils/sendWebSoket";
 
+initWebSocket();
+
 AppDataSource.initialize().then(async () => {
   const app = new Koa();
   const router = new Router();
@@ -43,6 +45,4 @@ AppDataSource.initialize().then(async () => {
   app.listen(4000, () => {
     console.log("server is listening to port 4000");
   });
-
-  initWebSocket();
 });

@@ -2,6 +2,10 @@ import WebSocket from "ws";
 import { MessageType, NicknameType } from "../types/message";
 import { ADMIN_NICKNAME } from "../constants/admin";
 
+import dotenv from "dotenv";
+
+dotenv.config({ path: __dirname + "/../../.env" });
+
 const url = `ws://${process.env.APP_HOST}/api/ws`;
 
 const ws = new WebSocket(url);
@@ -34,8 +38,6 @@ export const sendAI = (
   id: string,
   aiNickname: NicknameType
 ) => {
-  const ws = new WebSocket(url);
-
   ws.send(
     JSON.stringify({
       type: "message",

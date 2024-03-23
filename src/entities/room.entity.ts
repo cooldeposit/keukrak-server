@@ -38,6 +38,6 @@ export class Room {
   @Column("int", { default: -1 })
   currentQuestion!: number;
 
-  @Column("text", { default: randomNickname() })
+  @Column("jsonb", { default: randomNickname() })
   aiNickname!: NicknameType;
 }

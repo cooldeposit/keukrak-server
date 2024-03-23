@@ -25,11 +25,9 @@ export const getAnswer = async (concept: string, question: string) => {
     model: "gpt-4",
   });
 
-  const answer = completion.choices.map(
-    (choice) => JSON.parse(choice.message.content).message
-  );
+  const answer = completion.choices.map((choice) => choice.message.content);
 
-  console.log(answer);
+  console.log(answer[0]);
 
-  return answer[0];
+  return answer[0].replace(/"/g, "");
 };

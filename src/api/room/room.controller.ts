@@ -101,6 +101,7 @@ export const getRoom = async (ctx: Context) => {
   }
   ctx.body = {
     ...room,
+    aiNickname: undefined,
     users: room.users.map((user) => ({
       id: user.id,
       username: user.username,
@@ -109,7 +110,7 @@ export const getRoom = async (ctx: Context) => {
     })),
     chats: room.chats.map((chat) => ({
       message: chat.message,
-      nickname: room.users.find((user) => user.id === chat.userId)?.nickname,
+      nickname: chat.nickname,
       created_ad: chat.created_at,
     })),
   };
@@ -169,8 +170,19 @@ export const nextQuestion = async (ctx: Context) => {
       room.concept,
       room.questions[room.currentQuestion]
     );
+    room.chats = [
+      ...room.chats,
+      {
+        message: r,
+        userId: "ai",
+        created_at: new Date(),
+        nickname: room.aiNickname,
+      },
+    ];
+    AppDataSource.getRepository(Room).save(room);
+
     setTimeout(() => {
       sendAI(r, room.id, room.aiNickname);
-    }, Math.random() * 1000 + Math.random() * 500 + 1000);
+    }, Math.random() * 1000 + r.length * 200 + 1000);
   }
 };
