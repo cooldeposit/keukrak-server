@@ -168,22 +168,23 @@ export const nextQuestion = async (ctx: Context) => {
       room.users.map((user) => user.username)
     );
 
+    const sroom = await AppDataSource.getRepository(Room).findOne({
+      where: { id: roomId },
+    });
+    sroom.chats = [
+      ...sroom.chats,
+      ...r.map((message) => ({
+        message,
+        userId: "ai",
+        created_at: new Date(),
+        nickname: sroom.aiNickname,
+      })),
+    ];
+    await AppDataSource.getRepository(Room).save(sroom);
+
     r.map((message, i) => {
       setTimeout(async () => {
         sendAdmin(message, room.id);
-        const sroom = await AppDataSource.getRepository(Room).findOne({
-          where: { id: roomId },
-        });
-        sroom.chats = [
-          ...sroom.chats,
-          {
-            message,
-            userId: sroom.users.find((user) => user.isAdmin)?.id,
-            created_at: new Date(),
-            nickname: ADMIN_NICKNAME,
-          },
-        ];
-        await AppDataSource.getRepository(Room).save(sroom);
       }, 2000 * (i + 1) + 2000);
     });
   }
@@ -193,21 +194,22 @@ export const nextQuestion = async (ctx: Context) => {
     room.questions[room.currentQuestion]
   );
 
+  const sroom = await AppDataSource.getRepository(Room).findOne({
+    where: { id: roomId },
+  });
+  sroom.chats = [
+    ...sroom.chats,
+    {
+      message: r,
+      userId: "ai",
+      created_at: new Date(),
+      nickname: sroom.aiNickname,
+    },
+  ];
+  await AppDataSource.getRepository(Room).save(sroom);
+
   setTimeout(async () => {
     sendAI(r, room.id, room.aiNickname);
-    const sroom = await AppDataSource.getRepository(Room).findOne({
-      where: { id: roomId },
-    });
-    sroom.chats = [
-      ...sroom.chats,
-      {
-        message: r,
-        userId: "ai",
-        created_at: new Date(),
-        nickname: sroom.aiNickname,
-      },
-    ];
-    await AppDataSource.getRepository(Room).save(sroom);
   }, (room.currentQuestion === 0 ? 6000 : 4000) + Math.random() * 4000 + r.length * 500);
 };
 
