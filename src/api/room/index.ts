@@ -7,5 +7,6 @@ roomRouter.post("/", Controller.create);
 roomRouter.get("/:roomId", Controller.getRoom);
 roomRouter.post("/:roomId", Controller.changeConnect);
 roomRouter.post("/:roomId/enter", Controller.enterRoom);
+roomRouter.post("/:roomId/next", Controller.nextQuestion);
 
 export default roomRouter;

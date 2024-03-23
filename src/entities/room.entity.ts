@@ -18,4 +18,13 @@ export class Room {
 
   @Column("jsonb", { default: [] })
   chats!: { message: string; created_at: Date; userId: string }[];
+
+  @Column("text", { default: "" })
+  concept!: string;
+
+  @Column("jsonb", { default: [] })
+  questions!: string[];
+
+  @Column("int", { default: -1 })
+  currentQuestion!: number;
 }

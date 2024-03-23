@@ -2,11 +2,15 @@ import { Context } from "koa";
 import { AppDataSource } from "../../data-source";
 import { Room } from "../../entities/room.entity";
 import { generateUUID } from "../../utils/generateUUID";
+import { randomConcept, randomQuestions } from "../../utils/randomConcept";
 
 export const create = async (ctx: Context) => {
   const { name }: { name: string } = ctx.request.body;
   const id = generateUUID();
+  const concept = randomConcept();
+  const questions = randomQuestions();
   const room = AppDataSource.getRepository(Room).create({
+    concept,
     users: [
       {
         id,
@@ -14,9 +18,10 @@ export const create = async (ctx: Context) => {
         isOnline: true,
       },
     ],
+    questions,
   });
   await AppDataSource.getRepository(Room).save(room);
-  ctx.body = { roomId: room.id, userId: id };
+  ctx.body = { roomId: room.id, userId: id, concept };
   ctx.status = 201;
 };
 
@@ -61,7 +66,7 @@ export const enterRoom = async (ctx: Context) => {
     isOnline: true,
   });
   await AppDataSource.getRepository(Room).save(room);
-  ctx.body = { userId: id };
+  ctx.body = { userId: id, concept: room.concept };
   ctx.status = 201;
 };
 
@@ -79,4 +84,26 @@ export const getRoom = async (ctx: Context) => {
   }
   ctx.body = room;
   ctx.status = 200;
+};
+
+export const nextQuestion = async (ctx: Context) => {
+  const { roomId } = ctx.params;
+  const room = await AppDataSource.getRepository(Room).findOne({
+    where: { id: roomId },
+  });
+  if (!room) {
+    ctx.status = 404;
+    return;
+  }
+
+  if (room.currentQuestion + 1 >= room.questions.length) {
+    ctx.status = 400;
+    return;
+  }
+
+  console.log(room.currentQuestion);
+
+  room.currentQuestion += 1;
+  await AppDataSource.getRepository(Room).save(room);
+  ctx.body = { question: room.questions[room.currentQuestion] };
 };
