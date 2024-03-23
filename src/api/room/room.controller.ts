@@ -202,7 +202,7 @@ export const nextQuestion = async (ctx: Context) => {
       },
     ];
     AppDataSource.getRepository(Room).save(room);
-  }, (room.currentQuestion === 0 ? 10000 : 4000) + Math.random() * 1000 + r.length * 500);
+  }, (room.currentQuestion === 0 ? 6000 : 4000) + Math.random() * 4000 + r.length * 500);
 };
 
 export const poll = async (ctx: Context) => {
