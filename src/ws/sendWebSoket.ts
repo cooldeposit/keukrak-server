@@ -67,6 +67,7 @@ export const sendPollResult = (
       guessAI: boolean;
       friends: {
         name: string;
+        nickname: string;
         correct: boolean;
       }[];
     };

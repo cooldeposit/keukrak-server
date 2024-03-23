@@ -226,7 +226,11 @@ export const poll = async (ctx: Context) => {
               user.id === answer.id && user.nickname.name === answer.nickname
           );
           const ans = room.users.find((user) => user.id === answer.id);
-          return { name: ans.username, correct: correct ? true : false };
+          return {
+            name: ans.username,
+            nickname: ans.nickname.name,
+            correct: correct ? true : false,
+          };
         }),
       },
       score: 0,

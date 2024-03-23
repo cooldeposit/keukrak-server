@@ -1,12 +1,10 @@
 export const RULE = (concept: string, usernames: string[]) => {
   return [
-    `극락 퀴즈쇼를 시작합니다. 
-지금 이 채팅방에는 5명이 있습니다. 
-${usernames.join(",")}, 그리고 AI...
+    `극락 퀴즈쇼를 시작합니다-! 
 
-이번 게임의 컨셉은
-[${concept}]
-입니다.`,
+    지금 이 채팅방에는 5명이 있어요. 
+
+${usernames.join(",")}, 그리고 AI...`,
     `[진행 방식]
 
 매 1분마다 질문을 드려요. 
