@@ -165,24 +165,21 @@ export const nextQuestion = async (ctx: Context) => {
         sendAdmin(message, room.id);
       }, 2000 * (i + 1));
     });
-  } else {
-    const r = await getAnswer(
-      room.concept,
-      room.questions[room.currentQuestion]
-    );
-    room.chats = [
-      ...room.chats,
-      {
-        message: r,
-        userId: "ai",
-        created_at: new Date(),
-        nickname: room.aiNickname,
-      },
-    ];
-    AppDataSource.getRepository(Room).save(room);
-
-    setTimeout(() => {
-      sendAI(r, room.id, room.aiNickname);
-    }, Math.random() * 1000 + r.length * 200 + 1000);
   }
+
+  const r = await getAnswer(room.concept, room.questions[room.currentQuestion]);
+  room.chats = [
+    ...room.chats,
+    {
+      message: r,
+      userId: "ai",
+      created_at: new Date(),
+      nickname: room.aiNickname,
+    },
+  ];
+  AppDataSource.getRepository(Room).save(room);
+
+  setTimeout(() => {
+    sendAI(r, room.id, room.aiNickname);
+  }, Math.random() * 1000 + r.length * 200 + 1000);
 };

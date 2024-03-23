@@ -40,4 +40,7 @@ export class Room {
 
   @Column("jsonb", { default: randomNickname() })
   aiNickname!: NicknameType;
+
+  @Column("boolean", { default: false })
+  flag!: boolean;
 }
