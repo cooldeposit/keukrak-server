@@ -18,12 +18,15 @@ export const addChat = async (ctx: Context) => {
     return;
   }
 
-  roomItem.chats.push({
-    created_at: new Date(),
-    userId,
-    message,
-    nickname: roomItem.users.find((user) => user.id === userId)?.nickname,
-  });
+  roomItem.chats = [
+    ...roomItem.chats,
+    {
+      created_at: new Date(),
+      userId,
+      message,
+      nickname: roomItem.users.find((user) => user.id === userId)?.nickname,
+    },
+  ];
 
   await AppDataSource.getRepository(Room).save(roomItem);
 
