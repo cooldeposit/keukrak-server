@@ -1,7 +1,7 @@
 import { Context } from "koa";
 import { AppDataSource } from "../../data-source";
 import { Room } from "../../entities/room.entity";
-import { generateUUID } from "../../utils/generateUUID";
+import { generateUserId } from "../../utils/generateUserId";
 import { randomConcept, randomQuestions } from "../../utils/randomConcept";
 import { randomNickname } from "../../utils/randomNickname";
 import {
@@ -16,7 +16,7 @@ import { ADMIN_NICKNAME } from "../../constants/admin";
 
 export const create = async (ctx: Context) => {
   const { name }: { name: string } = ctx.request.body;
-  const id = generateUUID();
+  const id = generateUserId();
   const concept = randomConcept();
   const questions = randomQuestions();
 
@@ -76,7 +76,7 @@ export const enterRoom = async (ctx: Context) => {
     return;
   }
 
-  const id = generateUUID();
+  const id = generateUserId();
 
   const nickname = randomNickname();
 
@@ -188,7 +188,7 @@ export const nextQuestion = async (ctx: Context) => {
       },
     ];
     AppDataSource.getRepository(Room).save(room);
-  }, (room.currentQuestion === 0 ? 20000 : 8000) + Math.random() * 1000 + r.length * 500);
+  }, (room.currentQuestion === 0 ? 15000 : 8000) + Math.random() * 1000 + r.length * 500);
 };
 
 export const poll = async (ctx: Context) => {
