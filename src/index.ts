@@ -22,7 +22,12 @@ AppDataSource.initialize().then(async () => {
   app.use(
     cors({
       origin: (ctx) => {
-        const whitelist = ["http://localhost:3000", "http://localhost:4000"];
+        const whitelist = [
+          "http://localhost:3000",
+          "http://localhost:4000",
+          "https://keukrak.r4bb1t.dev",
+          "https://keukrak-server.r4bb1t.dev",
+        ];
         const origin = ctx.request.get("origin");
 
         try {

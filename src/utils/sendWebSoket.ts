@@ -6,9 +6,7 @@ import dotenv from "dotenv";
 
 dotenv.config({ path: __dirname + "/../../.env" });
 
-const url = `${process.env.NODE_ENV === "production" ? "wss" : "ws"}://${
-  process.env.APP_HOST
-}/api/ws`;
+const url = `ws://${process.env.APP_HOST}/api/ws`;
 
 console.log(url);
 
