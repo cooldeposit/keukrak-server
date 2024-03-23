@@ -6,7 +6,11 @@ import dotenv from "dotenv";
 
 dotenv.config({ path: __dirname + "/../../.env" });
 
-const url = `ws://${process.env.APP_HOST}/api/ws`;
+const url = `ws://${process.env.APP_HOST}/api/ws${
+  process.env.NODE_ENV === "production"
+    ? "/socket.io/?EIO=3&transport=websocket"
+    : ""
+}`;
 
 console.log(url);
 
