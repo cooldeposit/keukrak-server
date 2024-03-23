@@ -4,7 +4,7 @@ import { Room } from "../../entities/room.entity";
 import { generateUUID } from "../../utils/generateUUID";
 import { randomConcept, randomQuestions } from "../../utils/randomConcept";
 import { randomNickname } from "../../utils/randomNickname";
-import { sendAI, sendAdmin } from "../../ws/sendWebSoket";
+import { sendAI, sendAdmin, sendPoll } from "../../ws/sendWebSoket";
 import { RULE as rule } from "../../constants/rule";
 import { getAnswer } from "../../utils/openai";
 import { ADMIN_NICKNAME } from "../../constants/admin";
@@ -128,8 +128,8 @@ export const nextQuestion = async (ctx: Context) => {
   }
 
   if (room.currentQuestion + 1 >= room.questions.length) {
-    ctx.status = 400;
-    // TODO: POLL
+    sendPoll(room.id);
+    ctx.status = 204;
     return;
   }
 

@@ -47,3 +47,12 @@ export const sendAI = (
     } as MessageType)
   );
 };
+
+export const sendPoll = (id: string) => {
+  send(
+    JSON.stringify({
+      type: "poll",
+      id,
+    })
+  );
+};
