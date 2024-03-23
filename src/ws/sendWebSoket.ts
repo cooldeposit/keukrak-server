@@ -65,6 +65,7 @@ export const sendPollResult = (
     score: number;
     result: {
       guessAI: boolean;
+      aiNickname: string;
       friends: {
         name: string;
         nickname: string;

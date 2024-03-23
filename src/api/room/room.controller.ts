@@ -220,6 +220,7 @@ export const poll = async (ctx: Context) => {
         guessAI:
           poll.answers.find((answer) => answer.id === "ai")?.nickname ===
           room.aiNickname.name,
+        aiNickname: room.aiNickname.name,
         friends: poll.answers.map((answer) => {
           const correct = room.users.some(
             (user) =>
