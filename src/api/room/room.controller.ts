@@ -9,6 +9,16 @@ export const create = async (ctx: Context) => {
   const id = generateUUID();
   const concept = randomConcept();
   const questions = randomQuestions();
+
+  console.log(
+    JSON.stringify({
+      id,
+      username: name,
+      isOnline: true,
+      isAdmin: true,
+    })
+  );
+
   const room = AppDataSource.getRepository(Room).create({
     concept,
     users: [
@@ -16,11 +26,14 @@ export const create = async (ctx: Context) => {
         id,
         username: name,
         isOnline: true,
+        isAdmin: true,
       },
     ],
     questions,
   });
+
   await AppDataSource.getRepository(Room).save(room);
+
   ctx.body = { roomId: room.id, userId: id, concept };
   ctx.status = 201;
 };
@@ -64,6 +77,7 @@ export const enterRoom = async (ctx: Context) => {
     id,
     username: name,
     isOnline: true,
+    isAdmin: false,
   });
   await AppDataSource.getRepository(Room).save(room);
   ctx.body = { userId: id, concept: room.concept };

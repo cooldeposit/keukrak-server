@@ -14,6 +14,7 @@ export class Room {
     id: string;
     username: string;
     isOnline: boolean;
+    isAdmin: boolean;
   }[];
 
   @Column("jsonb", { default: [] })
