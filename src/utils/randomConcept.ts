@@ -1,3 +1,5 @@
+import { N } from "../constants/rule";
+
 const CONCEPTS = [
   {
     kor: "초등학교 3학년 어린이",
@@ -60,8 +62,6 @@ const QUESTIONS = [
 ];
 
 export const randomQuestions = () => {
-  const N = 5;
-
   const result = [];
   const copy = [...QUESTIONS];
 
