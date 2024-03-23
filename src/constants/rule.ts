@@ -4,7 +4,7 @@ export const RULE = (concept: string, usernames: string[]) => {
 
     지금 이 채팅방에는 5명이 있어요. 
 
-${usernames.join(",")}, 그리고 AI...`,
+${usernames.join(", ")}, 그리고 AI...`,
 
     `[진행 방식]
 
