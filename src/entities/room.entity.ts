@@ -1,12 +1,7 @@
 import { Entity, Column, PrimaryGeneratedColumn } from "typeorm";
 import "reflect-metadata";
 import { randomNickname } from "../utils/randomNickname";
-
-interface NicknameType {
-  icon: string;
-  name: string;
-  color: string;
-}
+import { NicknameType } from "../types/message";
 
 @Entity("room")
 export class Room {

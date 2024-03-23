@@ -4,6 +4,8 @@ import { Room } from "../../entities/room.entity";
 import { generateUUID } from "../../utils/generateUUID";
 import { randomConcept, randomQuestions } from "../../utils/randomConcept";
 import { randomNickname } from "../../utils/randomNickname";
+import { sendAdmin } from "../../utils/sendWebSoket";
+import { RULE as rule } from "../../constants/rule";
 
 export const create = async (ctx: Context) => {
   const { name }: { name: string } = ctx.request.body;
@@ -135,4 +137,12 @@ export const nextQuestion = async (ctx: Context) => {
     question: room.questions[room.currentQuestion],
     index: room.currentQuestion,
   };
+
+  /*  const r = rule(
+    room.concept,
+    room.users.map((user) => user.username)
+  );
+  r.map((message, i) =>
+    setTimeout(() => sendAdmin(room.id, message), 1000 * i)
+  ); */
 };

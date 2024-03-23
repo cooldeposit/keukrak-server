@@ -1,5 +1,11 @@
-export interface ChatType {
-  user: string;
+export interface NicknameType {
+  icon: string;
+  name: string;
+  color: string;
+}
+
+export interface ChatPayloadType {
+  nickname: NicknameType;
   content: string;
 }
 
@@ -15,5 +21,5 @@ export interface AdminPayloadType {
 export interface MessageType {
   type: "message" | "enter" | "leave" | "admin";
   id: string;
-  payload: ChatType | UserPayloadType | AdminPayloadType;
+  payload: ChatPayloadType | UserPayloadType | AdminPayloadType;
 }
