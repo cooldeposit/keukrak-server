@@ -4,8 +4,10 @@ import { Room } from "../../entities/room.entity";
 
 export const addChat = async (ctx: Context) => {
   const { room }: { room: string } = ctx.params;
-  const { userId, message }: { userId: string; message: string } =
-    ctx.request.body;
+  const { userId, message } = ctx.request.body as {
+    userId: string;
+    message: string;
+  };
 
   console.log(room, userId, message);
 
