@@ -8,9 +8,10 @@ import { AppDataSource } from "./data-source";
 import api from "./api";
 
 import dotenv from "dotenv";
-import { initWebSocket } from "./utils/sendWebSoket";
 
 dotenv.config({ path: __dirname + "/../.env" });
+
+import { initWebSocket } from "./utils/sendWebSoket";
 
 AppDataSource.initialize().then(async () => {
   const app = new Koa();

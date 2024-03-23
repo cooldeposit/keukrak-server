@@ -4,8 +4,10 @@ import { Room } from "../../entities/room.entity";
 import { generateUUID } from "../../utils/generateUUID";
 import { randomConcept, randomQuestions } from "../../utils/randomConcept";
 import { randomNickname } from "../../utils/randomNickname";
-import { sendAdmin } from "../../utils/sendWebSoket";
+import { sendAI, sendAdmin } from "../../utils/sendWebSoket";
 import { RULE as rule } from "../../constants/rule";
+import { getAnswer } from "../../utils/openai";
+import { ADMIN_NICKNAME } from "../../constants/admin";
 
 export const create = async (ctx: Context) => {
   const { name }: { name: string } = ctx.request.body;
@@ -132,7 +134,9 @@ export const nextQuestion = async (ctx: Context) => {
   console.log(room.currentQuestion);
 
   room.currentQuestion += 1;
+
   await AppDataSource.getRepository(Room).save(room);
+
   ctx.body = {
     question: room.questions[room.currentQuestion],
     index: room.currentQuestion,
@@ -143,20 +147,30 @@ export const nextQuestion = async (ctx: Context) => {
       room.concept,
       room.users.map((user) => user.username)
     );
-    r.map((message, i) => {
-      room.chats.push({
+
+    room.chats = [
+      ...room.chats,
+      ...r.map((message) => ({
         message,
+        userId: room.users.find((user) => user.isAdmin)?.id,
         created_at: new Date(),
-        userId: "",
-        nickname: {
-          icon: "👤",
-          name: "사회자",
-          color: "#dddddd",
-        },
-      });
+        nickname: ADMIN_NICKNAME,
+      })),
+    ];
+    AppDataSource.getRepository(Room).save(room);
+
+    r.map((message, i) => {
       setTimeout(() => {
         sendAdmin(message, room.id);
       }, 2000 * (i + 1));
     });
+  } else {
+    const r = await getAnswer(
+      room.concept,
+      room.questions[room.currentQuestion]
+    );
+    setTimeout(() => {
+      sendAI(r, room.id, room.aiNickname);
+    }, Math.random() * 1000 + Math.random() * 500 + 1000);
   }
 };

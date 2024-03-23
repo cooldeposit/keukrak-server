@@ -1,5 +1,6 @@
 import WebSocket from "ws";
 import { MessageType, NicknameType } from "../types/message";
+import { ADMIN_NICKNAME } from "../constants/admin";
 
 const url = `ws://${process.env.APP_HOST}/api/ws`;
 
@@ -21,11 +22,7 @@ export const sendAdmin = (message: string, id: string) => {
       type: "message",
       id,
       payload: {
-        nickname: {
-          icon: "👤",
-          name: "사회자",
-          color: "#dddddd",
-        },
+        nickname: ADMIN_NICKNAME,
         content: message,
       },
     } as MessageType)
