@@ -24,6 +24,8 @@ socket.use(
         "https://keukrak.r4bb1t.dev",
         "https://keukrak-server.r4bb1t.dev",
         "https://keukrak-socket.r4bb1t.dev",
+        "http://44.201.148.87:3000",
+        "http://44.201.148.87:4000",
       ];
       const origin = ctx.request.get("origin");
 
@@ -58,6 +60,8 @@ AppDataSource.initialize().then(async () => {
           "https://keukrak.r4bb1t.dev",
           "https://keukrak-server.r4bb1t.dev",
           "https://keukrak-socket.r4bb1t.dev",
+          "http://44.201.148.87:3000",
+          "http://44.201.148.87:4000",
         ];
         const origin = ctx.request.get("origin");
 
