@@ -134,7 +134,15 @@ export const nextQuestion = async (ctx: Context) => {
   }
 
   if (room.currentQuestion + 1 >= room.questions.length) {
-    sendPoll(room.id);
+    sendAdmin(
+      `대화 끝!
+    이제 누가 누군지 다 알겠지? 
+    
+    다 맞추면 극락이지만,
+    못 맞춘다면 ... 그건 알아서 해 😇 `,
+      room.id
+    );
+    setTimeout(() => sendPoll(room.id), 2000);
     ctx.status = 204;
     return;
   }
@@ -142,6 +150,12 @@ export const nextQuestion = async (ctx: Context) => {
   room.currentQuestion += 1;
 
   await AppDataSource.getRepository(Room).save(room);
+  sendAdmin(
+    `[1]번 질문!
+
+  [${room.questions[room.currentQuestion]}]`,
+    room.id
+  );
 
   ctx.body = {
     question: room.questions[room.currentQuestion],
