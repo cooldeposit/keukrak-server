@@ -16,6 +16,10 @@ export const ws = async (ctx: Context) => {
           console.log("Server message received.");
           socket.send(parsed.payload);
         });
+      } else {
+        sockets.forEach((socket) => {
+          socket.send(message);
+        });
       }
     } catch (e) {
       console.log(e);
