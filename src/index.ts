@@ -15,6 +15,30 @@ import ws from "./ws";
 dotenv.config({ path: __dirname + "/../.env" });
 
 const socket = websockify(new Koa());
+socket.use(
+  cors({
+    origin: (ctx) => {
+      const whitelist = [
+        "http://localhost:3000",
+        "http://localhost:4000",
+        "https://keukrak.r4bb1t.dev",
+        "https://keukrak-server.r4bb1t.dev",
+        "https://keukrak-socket.r4bb1t.dev",
+      ];
+      const origin = ctx.request.get("origin");
+
+      try {
+        if (origin && whitelist.includes(origin)) return origin;
+        else return "";
+      } catch (e) {
+        console.log(e);
+        return "";
+      }
+    },
+    credentials: true,
+    exposeHeaders: ["authorization"],
+  })
+);
 socket.ws.use(ws.routes()).use(ws.allowedMethods());
 
 socket.listen(4001, () => {
