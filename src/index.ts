@@ -8,6 +8,7 @@ import { AppDataSource } from "./data-source";
 import api from "./api";
 
 import dotenv from "dotenv";
+import { initWebSocket } from "./utils/sendWebSoket";
 
 dotenv.config({ path: __dirname + "/../.env" });
 
@@ -41,4 +42,6 @@ AppDataSource.initialize().then(async () => {
   app.listen(4000, () => {
     console.log("server is listening to port 4000");
   });
+
+  initWebSocket();
 });

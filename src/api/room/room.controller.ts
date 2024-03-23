@@ -138,11 +138,25 @@ export const nextQuestion = async (ctx: Context) => {
     index: room.currentQuestion,
   };
 
-  /*  const r = rule(
-    room.concept,
-    room.users.map((user) => user.username)
-  );
-  r.map((message, i) =>
-    setTimeout(() => sendAdmin(room.id, message), 1000 * i)
-  ); */
+  if (room.currentQuestion === 0) {
+    const r = rule(
+      room.concept,
+      room.users.map((user) => user.username)
+    );
+    r.map((message, i) => {
+      room.chats.push({
+        message,
+        created_at: new Date(),
+        userId: "",
+        nickname: {
+          icon: "👤",
+          name: "사회자",
+          color: "#dddddd",
+        },
+      });
+      setTimeout(() => {
+        sendAdmin(message, room.id);
+      }, 2000 * (i + 1));
+    });
+  }
 };
