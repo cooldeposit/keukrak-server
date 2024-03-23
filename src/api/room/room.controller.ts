@@ -107,6 +107,7 @@ export const getRoom = async (ctx: Context) => {
   ctx.body = {
     ...room,
     aiNickname: undefined,
+    nicknames: [...room.users.map((user) => user.nickname), room.aiNickname],
     users: room.users.map((user) => ({
       id: user.id,
       username: user.username,
