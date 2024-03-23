@@ -3,7 +3,7 @@ import { ADMIN_NICKNAME } from "../constants/admin";
 import { WebSocket } from "ws";
 
 function createSocket() {
-  const socket = new WebSocket("ws://localhost:4001");
+  const socket = new WebSocket(process.env.WS_URL || "ws://localhost:4001");
   socket.onmessage = (msg) => console.log(msg);
   socket.onopen = () => console.log("connected to socket");
   return socket;

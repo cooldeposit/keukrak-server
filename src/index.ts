@@ -33,6 +33,7 @@ AppDataSource.initialize().then(async () => {
           "http://localhost:4000",
           "https://keukrak.r4bb1t.dev",
           "https://keukrak-server.r4bb1t.dev",
+          "https://keukrak-socket.r4bb1t.dev",
         ];
         const origin = ctx.request.get("origin");
 
