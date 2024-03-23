@@ -33,5 +33,5 @@ export const getAnswer = async (concept: string, question: string) => {
 
   console.log(answer[0]);
 
-  return answer[0].replace(/"/g, "");
+  return answer[0].replace(/"/g, "").trim();
 };
