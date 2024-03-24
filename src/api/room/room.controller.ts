@@ -273,6 +273,12 @@ export const poll = async (ctx: Context) => {
       r.score = (r.score / (room.users.length + 1)) * 100;
     });
 
+    const sroom = await AppDataSource.getRepository(Room).findOne({
+      where: { id: roomId },
+    });
+    if (sroom.flag) return;
     sendPollResult(room.id, result);
+    sroom.flag = true;
+    await AppDataSource.getRepository(Room).save(sroom);
   }
 };
