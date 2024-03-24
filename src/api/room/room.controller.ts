@@ -238,9 +238,20 @@ export const poll = async (ctx: Context) => {
     return;
   }
 
-  room.poll.push({ userId, answers });
+  room.poll = [
+    ...room.poll,
+    {
+      userId,
+      answers: answers.map((answer) => ({
+        id: answer.id || "ai",
+        nickname: answer.nickname,
+      })),
+    },
+  ];
 
   await AppDataSource.getRepository(Room).save(room);
+
+  ctx.body = {};
 
   if (room.poll.length === room.users.length) {
     const result = room.poll.map((poll) => ({
@@ -280,5 +291,4 @@ export const poll = async (ctx: Context) => {
 
     sendPollResult(room.id, result);
   }
-  ctx.body = {};
 };
