@@ -281,4 +281,5 @@ export const poll = async (ctx: Context) => {
     sendPollResult(room.id, result);
   }
   ctx.status = 204;
+  ctx.body = {};
 };
