@@ -135,14 +135,19 @@ export const nextQuestion = async (ctx: Context) => {
   }
 
   if (room.currentQuestion + 1 >= room.questions.length) {
-    sendAdmin(
-      `대화 끝!
+    if (!room.flag) {
+      sendAdmin(
+        `대화 끝!
     이제 누가 누군지 다 알겠지? 
     
     다 맞추면 극락이지만,
     못 맞춘다면 ... 그건 알아서 해 😇 `,
-      room.id
-    );
+        room.id
+      );
+      room.flag = true;
+      await AppDataSource.getRepository(Room).save(room);
+    }
+
     setTimeout(() => sendPoll(room.id), 2000);
     ctx.status = 204;
     return;
@@ -273,12 +278,6 @@ export const poll = async (ctx: Context) => {
       r.score = (r.score / (room.users.length + 1)) * 100;
     });
 
-    const sroom = await AppDataSource.getRepository(Room).findOne({
-      where: { id: roomId },
-    });
-    if (sroom.flag) return;
     sendPollResult(room.id, result);
-    sroom.flag = true;
-    await AppDataSource.getRepository(Room).save(sroom);
   }
 };
