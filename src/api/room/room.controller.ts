@@ -262,18 +262,21 @@ export const poll = async (ctx: Context) => {
           poll.answers.find((answer) => answer.id === "ai")?.nickname ===
           room.aiNickname.name,
         aiNickname: room.aiNickname.name,
-        friends: poll.answers.map((answer) => {
-          const correct = room.users.some(
-            (user) =>
-              user.id === answer.id && user.nickname.name === answer.nickname
-          );
-          const ans = room.users.find((user) => user.id === answer.id);
-          return {
-            name: ans.username,
-            nickname: ans.nickname.name,
-            correct: correct ? true : false,
-          };
-        }),
+        friends: poll.answers
+          .filter((answer) => room.users.find((user) => user.id === answer.id))
+          .map((answer) => {
+            const correct = room.users.some(
+              (user) =>
+                user.id === answer.id && user.nickname.name === answer.nickname
+            );
+            const ans = room.users.find((user) => user.id === answer.id);
+            if (ans)
+              return {
+                name: ans.username,
+                nickname: ans.nickname.name,
+                correct: correct ? true : false,
+              };
+          }),
       },
       score: 0,
     }));
