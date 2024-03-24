@@ -12,6 +12,7 @@ import {
 } from "../../ws/sendWebSoket";
 import { RULE as rule } from "../../constants/rule";
 import { getAnswer } from "../../utils/openai";
+import { ADMIN_NICKNAME } from "../../constants/admin";
 
 export const create = async (ctx: Context) => {
   const { name }: { name: string } = ctx.request.body;
@@ -182,9 +183,9 @@ export const nextQuestion = async (ctx: Context) => {
         ...sroom.chats,
         ...r.map((message) => ({
           message,
-          userId: "ai",
+          userId: "moderator",
           created_at: new Date(),
-          nickname: sroom.aiNickname,
+          nickname: ADMIN_NICKNAME,
         })),
       ];
       await AppDataSource.getRepository(Room).save(sroom);
