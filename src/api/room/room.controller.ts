@@ -235,7 +235,7 @@ export const nextQuestion = async (ctx: Context) => {
       },
     ];
     await AppDataSource.getRepository(Room).save(sroom);
-  }, (room.currentQuestion === 0 ? 9000 : 7000) + Math.random() * 3000 + aiAnswer.length * 400);
+  }, (room.currentQuestion === 0 ? 9000 : 3000) + Math.random() * 3000 + aiAnswer.length * 300);
 };
 
 export const poll = async (ctx: Context) => {
