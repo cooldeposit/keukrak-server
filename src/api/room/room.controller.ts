@@ -306,7 +306,7 @@ export const poll = async (ctx: Context) => {
         }
       });
 
-      r.score = (r.score / (room.users.length + 1)) * 100;
+      r.score = (r.score / room.users.length) * 100;
     });
 
     sendPollResult(room.id, result);
