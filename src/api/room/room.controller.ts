@@ -155,6 +155,7 @@ export const nextQuestion = async (ctx: Context) => {
   }
 
   room.currentQuestion += 1;
+  await AppDataSource.getRepository(Room).save(room);
 
   ctx.body = {
     question: room.questions[room.currentQuestion],
