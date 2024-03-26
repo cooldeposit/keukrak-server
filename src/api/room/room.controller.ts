@@ -7,6 +7,7 @@ import { randomNickname } from "../../utils/randomNickname";
 import {
   sendAI,
   sendAdmin,
+  sendNextQuestion,
   sendPoll,
   sendPollResult,
 } from "../../ws/sendWebSoket";
@@ -193,6 +194,7 @@ export const nextQuestion = async (ctx: Context) => {
       [${room.questions[room.currentQuestion]}]`,
         room.id
       );
+      sendNextQuestion(room.questions[room.currentQuestion], room.id);
     }, 2000 * r.length + 2000);
   } else {
     await AppDataSource.getRepository(Room).save(room);

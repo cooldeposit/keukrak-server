@@ -18,8 +18,16 @@ export interface AdminPayloadType {
   content: string;
 }
 
+export interface QuestionPayloadType {
+  question: string;
+}
+
 export interface MessageType {
-  type: "message" | "enter" | "leave" | "admin";
+  type: "message" | "enter" | "leave" | "admin" | "question";
   id: string;
-  payload: ChatPayloadType | UserPayloadType | AdminPayloadType;
+  payload:
+    | ChatPayloadType
+    | UserPayloadType
+    | AdminPayloadType
+    | QuestionPayloadType;
 }
