@@ -207,6 +207,11 @@ export const nextQuestion = async (ctx: Context) => {
     [${room.questions[room.currentQuestion]}]`,
       room.id
     );
+    sendNextQuestion(
+      room.currentQuestion,
+      room.questions[room.currentQuestion],
+      room.id
+    );
   }
 
   const aiAnswer = await getAnswer(
