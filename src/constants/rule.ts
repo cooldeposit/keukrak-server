@@ -38,4 +38,4 @@ ${usernames.join(", ")}, 그리고 AI...`,
   ];
 };
 
-export const N = 2;
+export const N = 3;
