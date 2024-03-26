@@ -157,7 +157,7 @@ export const nextQuestion = async (ctx: Context) => {
 
   await AppDataSource.getRepository(Room).save(room);
   sendAdmin(
-    `[1]번 질문!
+    `[${room.currentQuestion + 1}]번 질문!
 
   [${room.questions[room.currentQuestion]}]`,
     room.id
@@ -218,7 +218,7 @@ export const nextQuestion = async (ctx: Context) => {
       },
     ];
     await AppDataSource.getRepository(Room).save(sroom);
-  }, (room.currentQuestion === 0 ? 6000 : 4000) + Math.random() * 2000 + r.length * 100);
+  }, (room.currentQuestion === 0 ? 8000 : 6000) + Math.random() * 2000 + r.length * 200);
 };
 
 export const poll = async (ctx: Context) => {
