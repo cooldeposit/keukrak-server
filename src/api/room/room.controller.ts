@@ -158,14 +158,19 @@ export const nextQuestion = async (ctx: Context) => {
 
   ctx.body = {
     question: room.questions[room.currentQuestion],
-    index: room.currentQuestion,
+    currentQuestion: room.currentQuestion,
   };
 
   if (room.currentQuestion === 0) {
-    const r = rule(
-      room.concept.kor,
-      room.users.map((user) => user.username)
-    );
+    const r = [
+      ...rule(
+        room.concept.kor,
+        room.users.map((user) => user.username)
+      ),
+      `[${room.currentQuestion + 1}]번 질문!
+    
+    [${room.questions[room.currentQuestion]}]`,
+    ];
 
     r.map((message, i) => {
       setTimeout(async () => {
@@ -187,13 +192,6 @@ export const nextQuestion = async (ctx: Context) => {
         })),
       ];
       await AppDataSource.getRepository(Room).save(sroom);
-
-      sendAdmin(
-        `[${room.currentQuestion + 1}]번 질문!
-    
-      [${room.questions[room.currentQuestion]}]`,
-        room.id
-      );
       sendNextQuestion(
         room.currentQuestion,
         room.questions[room.currentQuestion],
@@ -231,7 +229,7 @@ export const nextQuestion = async (ctx: Context) => {
       },
     ];
     await AppDataSource.getRepository(Room).save(sroom);
-  }, (room.currentQuestion === 0 ? 9000 : 7000) + Math.random() * 3000 + r.length * 250);
+  }, (room.currentQuestion === 0 ? 9000 : 7000) + Math.random() * 3000 + r.length * 40);
 };
 
 export const poll = async (ctx: Context) => {
