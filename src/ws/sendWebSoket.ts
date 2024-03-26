@@ -31,14 +31,16 @@ export const sendAdmin = (message: string, id: string) => {
   );
 };
 
-export const sendNextQuestion = (question: string, id: string) => {
+export const sendNextQuestion = (
+  currentQuestion: number,
+  question: string,
+  id: string
+) => {
   send(
     JSON.stringify({
       type: "question",
       id,
-      payload: {
-        question,
-      },
+      payload: { currentQuestion, question },
     } as MessageType)
   );
 };
