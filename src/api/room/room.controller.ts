@@ -209,13 +209,13 @@ export const nextQuestion = async (ctx: Context) => {
     );
   }
 
-  const r = await getAnswer(
+  const aiAnswer = await getAnswer(
     room.concept.eng,
     room.questions[room.currentQuestion]
   );
 
   setTimeout(async () => {
-    sendAI(r, room.id, room.aiNickname);
+    sendAI(aiAnswer, room.id, room.aiNickname);
 
     const sroom = await AppDataSource.getRepository(Room).findOne({
       where: { id: roomId },
@@ -223,14 +223,14 @@ export const nextQuestion = async (ctx: Context) => {
     sroom.chats = [
       ...sroom.chats,
       {
-        message: r,
+        message: aiAnswer,
         userId: "ai",
         created_at: new Date(),
         nickname: sroom.aiNickname,
       },
     ];
     await AppDataSource.getRepository(Room).save(sroom);
-  }, (room.currentQuestion === 0 ? 9000 : 7000) + Math.random() * 3000 + r.length * 40);
+  }, (room.currentQuestion === 0 ? 9000 : 7000) + Math.random() * 3000 + aiAnswer.length * 400);
 };
 
 export const poll = async (ctx: Context) => {
