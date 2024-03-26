@@ -20,6 +20,6 @@ export const ANSWER_USER = (question: string) =>
   
   Ensure that you MUST the rules as follow when answering - in other words don't extract small snippets that are missing important context. 
 
-1. YOU MUST ANSWER IN ONE SENTENCE, NO MORE THAN 100 CHARACTERS.
-2. YOU MUST ANSWER IN KOREAN.
+1. YOU MUST ANSWER IN ONE SENTENCE, NO MORE THAN 50 CHARACTERS.
+2. YOU MUST ANSWER IN KOREAN COLLOQUIAL.
 3. YOU MUST NOT RESPOND IN THE FORM OF <ex> MENTIONED IN SYSTEM ABOVE.`;
