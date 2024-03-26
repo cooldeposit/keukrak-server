@@ -155,14 +155,6 @@ export const nextQuestion = async (ctx: Context) => {
 
   room.currentQuestion += 1;
 
-  await AppDataSource.getRepository(Room).save(room);
-  sendAdmin(
-    `[${room.currentQuestion + 1}]번 질문!
-
-  [${room.questions[room.currentQuestion]}]`,
-    room.id
-  );
-
   ctx.body = {
     question: room.questions[room.currentQuestion],
     index: room.currentQuestion,
@@ -194,7 +186,22 @@ export const nextQuestion = async (ctx: Context) => {
         })),
       ];
       await AppDataSource.getRepository(Room).save(sroom);
+
+      sendAdmin(
+        `[${room.currentQuestion + 1}]번 질문!
+    
+      [${room.questions[room.currentQuestion]}]`,
+        room.id
+      );
     }, 2000 * r.length + 2000);
+  } else {
+    await AppDataSource.getRepository(Room).save(room);
+    sendAdmin(
+      `[${room.currentQuestion + 1}]번 질문!
+  
+    [${room.questions[room.currentQuestion]}]`,
+      room.id
+    );
   }
 
   const r = await getAnswer(
