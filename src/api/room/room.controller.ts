@@ -33,6 +33,7 @@ export const create = async (ctx: Context) => {
       },
     ],
     questions,
+    aiNickname: randomNickname(),
   });
 
   await AppDataSource.getRepository(Room).save(room);
