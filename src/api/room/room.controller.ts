@@ -201,7 +201,24 @@ export const nextQuestion = async (ctx: Context) => {
       );
     }, 2000 * r.length + 2000);
   } else {
-    await AppDataSource.getRepository(Room).save(room);
+    const sroom = await AppDataSource.getRepository(Room).findOne({
+      where: { id: roomId },
+    });
+    sroom.chats = [
+      ...sroom.chats,
+      {
+        message: `[${room.currentQuestion + 1}]번 질문!
+        
+  
+    [${room.questions[room.currentQuestion]}]`,
+        userId: "moderator",
+        created_at: new Date(),
+        nickname: ADMIN_NICKNAME,
+      },
+    ];
+
+    await AppDataSource.getRepository(Room).save(sroom);
+
     sendAdmin(
       `[${room.currentQuestion + 1}]번 질문!
   
@@ -217,7 +234,8 @@ export const nextQuestion = async (ctx: Context) => {
 
   const aiAnswer = await getAnswer(
     room.concept.eng,
-    room.questions[room.currentQuestion]
+    room.questions[room.currentQuestion],
+    room.concept.example
   );
 
   setTimeout(async () => {
@@ -236,7 +254,7 @@ export const nextQuestion = async (ctx: Context) => {
       },
     ];
     await AppDataSource.getRepository(Room).save(sroom);
-  }, (room.currentQuestion === 0 ? 9000 : 5000) + Math.random() * 3000 + aiAnswer.length * 300);
+  }, (room.currentQuestion === 0 ? 11000 : 7000) + Math.random() * 3000 + aiAnswer.length * 300);
 };
 
 export const poll = async (ctx: Context) => {

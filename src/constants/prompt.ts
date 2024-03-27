@@ -1,9 +1,13 @@
-export const ANSWER_SYSTEM = (concept: string) =>
+export const ANSWER_SYSTEM = (concept: string, example: string[]) =>
   `The host’s question will be provided delimitied by triple quotes. Your task is to answer the host’s question. 
 
   All the players, including you, are now playing the AI search game in the group chat room. Your goal is to hide the fact that it is AI.
   
   All the players, including you, are acting in the tone of a certain person. For this game, you have to act in the tone of [${concept}].
+
+  An example of the Korean way of speaking about the concept is as follows: ${example.join(
+    ", "
+  )}
   
   I will provide example in JSON format as follows in <ex> tag:
   <ex>{”acting_like”: “…”, “host_question”: “…”, “example_answer”: “…”}</ex>`;
@@ -20,6 +24,65 @@ export const ANSWER_USER = (question: string) =>
   
   Ensure that you MUST the rules as follow when answering - in other words don't extract small snippets that are missing important context. 
 
-1. YOU MUST ANSWER IN ONE SENTENCE, NO MORE THAN 50 CHARACTERS.
-2. YOU MUST ANSWER IN KOREAN COLLOQUIAL.
+1. YOU MUST ANSWER IN ONE SENTENCE, NO MORE THAN 30 CHARACTERS.
+2. YOU MUST ANSWER IN KOREAN.
 3. YOU MUST NOT RESPOND IN THE FORM OF <ex> MENTIONED IN SYSTEM ABOVE.`;
+
+export const TEST_CONVERSATION = (
+  concept: string,
+  question: string,
+  chats: {
+    name: string;
+    text: string;
+  }[],
+  aiNickname: string
+) => `너를 포함한 모든 참가자는 ${concept}의 말투로 채팅에 참여하고 있어.
+다음은 “${question}”라는 질문에 대한 채팅 로그야.
+
+ ${JSON.stringify(chats.map((chat) => `${chat.name}: ${chat.text}`))}
+
+ “${aiNickname}”의 입장에서 이어서 채팅을 계속해야 해.
+ 답변은 매우 짧은 20자 이내의 리액션이어야 하며, 말투를 지키고 반드시 실제 사람처럼 대답해야 해. 질문을 해도 돼.
+
+ 답변 예시: "나는 바나나를 좋아해."
+`;
+
+export const QUESTION_CONVERSATION = (
+  concept: string,
+  question: string,
+  chats: {
+    name: string;
+    text: string;
+  }[],
+  aiNickname: string
+) => `너를 포함한 모든 참가자는 ${concept}의 말투로 채팅에 참여하고 있어.
+다음은 “${question}”라는 질문에 대한 채팅 로그야.
+
+ ${JSON.stringify(chats.map((chat) => `${chat.name}: ${chat.text}`))}
+
+ “${aiNickname}”이 아닌, 다른 유저의 답변에 대해 말투를 지키며 추가적으로 질문을 해봐.
+ 최대 글자수는 20자 내외야.
+
+ 답변 형식: "질문 내용"
+`;
+
+export const CHECK_CONVERSATION = (
+  concept: string,
+  question: string,
+  chats: {
+    name: string;
+    text: string;
+  }[],
+  aiNickname: string
+) =>
+  `다음은 채팅 로그이다.
+
+${JSON.stringify(
+  chats.slice(1, chats.length).map(
+    (chat) => `${chat.name}: ${chat.text.replace(/\\n/g, "")}
+  `
+  )
+)}
+
+현재 “${aiNickname}”가 답변을 해야 하는 상황이라면 "O", 아니라면 "X"로 대답하라.
+답변은 반드시 "O" 혹은 "X"여야 한다.`;

@@ -34,6 +34,7 @@ export class Room {
   concept!: {
     kor: string;
     eng: string;
+    example: string[];
   };
 
   @Column("jsonb", { default: [] })

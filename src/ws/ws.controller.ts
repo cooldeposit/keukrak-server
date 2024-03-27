@@ -9,7 +9,6 @@ export const ws = async (ctx: Context) => {
   ctx.websocket.on("message", (message) => {
     try {
       const parsed = JSON.parse(message.toString());
-      console.log(parsed);
 
       if (parsed.type === "server") {
         console.log(sockets.length);

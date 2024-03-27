@@ -3,6 +3,6 @@ import * as Controller from "./chat.controller";
 
 const chatRotuer = new Router();
 
-chatRotuer.post("/:room", Controller.addChat);
+chatRotuer.post("/:roomId", Controller.addChat);
 
 export default chatRotuer;
