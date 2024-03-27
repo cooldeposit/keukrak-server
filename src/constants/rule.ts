@@ -2,7 +2,7 @@ export const RULE = (concept: string, usernames: string[]) => {
   return [
     `극락 퀴즈쇼를 시작합니다-! 
 
-    지금 이 채팅방에는 5명이 있어요. 
+    지금 이 채팅방에는 ${usernames.length + 1}명이 있어요. 
 
 ${usernames.join(", ")}, 그리고 AI...`,
 
