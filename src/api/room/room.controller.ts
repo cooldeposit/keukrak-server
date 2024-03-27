@@ -142,8 +142,8 @@ export const nextQuestion = async (ctx: Context) => {
         `대화 끝!
     이제 누가 누군지 다 알겠지? 
     
-    다 맞추면 극락이지만,
-    못 맞춘다면 ... 그건 알아서 해 😇 `,
+    다 맞히면 극락이지만,
+    못 맞힌다면 ... 그건 알아서 해 😇 `,
         room.id
       );
       room.flag = true;

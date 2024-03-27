@@ -61,7 +61,7 @@ export const QUESTION_CONVERSATION = (
  ${JSON.stringify(chats.map((chat) => `${chat.name}: ${chat.text}`))}
 
  ${aiNickname}이 이 상황에서 ${concept} 말투로 뭐라고 채팅을 칠까? 최대 글자수는 20자 내외야.
- 다른 사람의 채팅에 대해 질문을 해도 돼. ${aiNickname}의 채팅에 대해서는 질문을 하면 안 돼.
+ 다른 사람의 채팅에 대해 질문을 해도 돼. ${aiNickname}의 채팅에 대해서는 반응 하면 안 돼.
 
  답변 형식: "채팅 내용"
 `;
