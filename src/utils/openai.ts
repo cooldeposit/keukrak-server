@@ -33,7 +33,7 @@ export const getAnswer = async (
         content: ANSWER_USER(question),
       },
     ],
-    model: "gpt-4",
+    model: "gpt-4-0125-preview",
   });
 
   const answer = completion.choices.map((choice) => choice.message.content);
@@ -54,7 +54,7 @@ export const checkConversation = async (
         content: CHECK_CONVERSATION(concept, question, chats, aiNickname),
       },
     ],
-    model: "gpt-4",
+    model: "gpt-4-0125-preview",
   });
 
   const answer = completion.choices.map((choice) => choice.message.content);
@@ -102,7 +102,7 @@ export const getConversation = async (
         content: TEST_CONVERSATION(concept, question, chats, aiNickname),
       },
     ],
-    model: "gpt-4",
+    model: "gpt-4-0125-preview",
   });
 
   const answer = completion.choices.map((choice) => choice.message.content);

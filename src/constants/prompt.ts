@@ -60,7 +60,8 @@ export const QUESTION_CONVERSATION = (
 
  ${JSON.stringify(chats.map((chat) => `${chat.name}: ${chat.text}`))}
 
- ${aiNickname}이 이 상황에서 ${concept} 말투로 뭐라고 채팅을 칠까? 최대 글자수는 20자 내외야. 질문을 해도 돼.
+ ${aiNickname}이 이 상황에서 ${concept} 말투로 뭐라고 채팅을 칠까? 최대 글자수는 20자 내외야.
+ 다른 사람의 채팅에 대해 질문을 해도 돼. ${aiNickname}의 채팅에 대해서는 질문을 하면 안 돼.
 
  답변 형식: "채팅 내용"
 `;
@@ -83,5 +84,5 @@ ${JSON.stringify(
   )
 )}
 
-현재 “${aiNickname}”가 답변을 해야 하는 상황이라면 "O", 아니라면 "X"로 대답하라.
+“${aiNickname}”가 답변을 무조건 해야 한다면, "O"를, 아니라면 "X"를 입력해라.
 답변은 반드시 "O" 혹은 "X"여야 한다.`;
