@@ -297,7 +297,7 @@ export const poll = async (ctx: Context) => {
         guessAI:
           poll.answers.find((answer) => answer.id === "ai")?.nickname ===
           room.aiNickname.name,
-        aiNickname: room.aiNickname.name,
+        aiNickname: room.aiNickname,
         friends: poll.answers
           .filter((answer) => room.users.find((user) => user.id === answer.id))
           .map((answer) => {
@@ -309,7 +309,7 @@ export const poll = async (ctx: Context) => {
             if (ans)
               return {
                 name: ans.username,
-                nickname: ans.nickname.name,
+                nickname: ans.nickname,
                 correct: correct ? true : false,
               };
           }),
