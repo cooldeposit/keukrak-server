@@ -57,4 +57,7 @@ export class Room {
       id: string;
     }[];
   }[];
+
+  @Column("text", { default: "pending" })
+  status!: "pending" | "chat" | "poll" | "pollend";
 }

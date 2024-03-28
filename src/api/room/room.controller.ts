@@ -147,10 +147,13 @@ export const nextQuestion = async (ctx: Context) => {
         room.id
       );
       room.flag = true;
+      room.status = "poll";
       await AppDataSource.getRepository(Room).save(room);
     }
 
-    setTimeout(() => sendPoll(room.id), 2000);
+    setTimeout(async () => {
+      sendPoll(room.id);
+    }, 2000);
     ctx.status = 204;
     return;
   }
@@ -164,6 +167,9 @@ export const nextQuestion = async (ctx: Context) => {
   };
 
   if (room.currentQuestion === 0) {
+    room.status = "chat";
+    await AppDataSource.getRepository(Room).save(room);
+
     const r = [
       ...rule(
         room.concept.kor,
@@ -327,7 +333,8 @@ export const poll = async (ctx: Context) => {
 
       r.score = (r.score / room.users.length) * 100;
     });
-
+    room.status = "pollend";
+    await AppDataSource.getRepository(Room).save(room);
     sendPollResult(room.id, result);
   }
 };
