@@ -299,33 +299,30 @@ export const poll = async (ctx: Context) => {
     const result = room.poll.map((poll) => ({
       userId: poll.userId,
       nickname: room.users.find((user) => user.id === poll.userId)?.nickname,
-      result: {
-        guessAI:
-          poll.answers.find((answer) => answer.id === "ai")?.nickname ===
-          room.aiNickname.name,
-        aiNickname: room.aiNickname,
-        friends: poll.answers
-          .filter((answer) => room.users.find((user) => user.id === answer.id))
-          .map((answer) => {
-            const correct = room.users.some(
-              (user) =>
-                user.id === answer.id && user.nickname.name === answer.nickname
-            );
-            const ans = room.users.find((user) => user.id === answer.id);
-            if (ans)
-              return {
-                name: ans.username,
-                nickname: ans.nickname,
-                correct: correct ? true : false,
-              };
-          }),
-      },
+      friends: poll.answers.map((answer) => {
+        const correct =
+          room.users.some(
+            (user) =>
+              user.id === answer.id && user.nickname.name === answer.nickname
+          ) ||
+          (answer.id === "ai" && room.aiNickname.name === answer.nickname);
+
+        const ans = room.users.find((user) => user.id === answer.id);
+        const ss = room.users.find(
+          (user) => user.nickname.name === answer.nickname
+        );
+        return {
+          name: ans?.username ?? "AI",
+          realName: ss?.username || "AI",
+          nickname: ss?.nickname || room.aiNickname,
+          correct,
+        };
+      }),
       score: 0,
     }));
 
     result.map((r) => {
-      r.score = r.result.guessAI ? 1 : 0;
-      r.result.friends.map((f) => {
+      r.friends.map((f) => {
         if (f.correct) {
           r.score += 1;
         }
@@ -334,6 +331,7 @@ export const poll = async (ctx: Context) => {
       r.score = (r.score / room.users.length) * 100;
     });
     room.status = "pollend";
+    room.result = result;
     await AppDataSource.getRepository(Room).save(room);
     sendPollResult(room.id, result);
   }

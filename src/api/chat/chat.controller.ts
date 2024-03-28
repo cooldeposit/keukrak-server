@@ -94,7 +94,6 @@ const reaction = async (roomId: string) => {
         const sroom = await AppDataSource.getRepository(Room).findOne({
           where: { id: roomId },
         });
-        if (q !== sroom.currentQuestion) return;
         sendAI(aiConversation, room.id, room.aiNickname);
         sroom.chats = [
           ...sroom.chats,
@@ -125,7 +124,7 @@ const question = async (
     },
   });
   const aiConversation = await questionConversation(
-    room.concept.eng,
+    room.concept.kor,
     room.questions[room.currentQuestion],
     chatlogs,
     room.aiNickname.name
@@ -134,7 +133,7 @@ const question = async (
     const sroom = await AppDataSource.getRepository(Room).findOne({
       where: { id: roomId },
     });
-    //if (q !== sroom.currentQuestion) return;
+    if (q !== sroom.currentQuestion) return;
     sendAI(aiConversation, room.id, room.aiNickname);
     sroom.chats = [
       ...sroom.chats,

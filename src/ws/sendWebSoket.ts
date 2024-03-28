@@ -76,15 +76,12 @@ export const sendPollResult = (
     userId: string;
     nickname: NicknameType;
     score: number;
-    result: {
-      guessAI: boolean;
-      aiNickname: NicknameType;
-      friends: {
-        name: string;
-        nickname: NicknameType;
-        correct: boolean;
-      }[];
-    };
+    friends: {
+      name: string;
+      realName: string;
+      nickname: NicknameType;
+      correct: boolean;
+    }[];
   }[]
 ) => {
   send(

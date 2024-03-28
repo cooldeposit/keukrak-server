@@ -50,11 +50,24 @@ export class Room {
   flag!: boolean;
 
   @Column("jsonb", { default: [] })
-  poll: {
+  poll!: {
     userId: string;
     answers: {
       nickname: string;
       id: string;
+    }[];
+  }[];
+
+  @Column("jsonb", { default: [] })
+  result!: {
+    userId: string;
+    nickname: NicknameType;
+    score: number;
+    friends: {
+      name: string;
+      realName: string;
+      nickname: NicknameType;
+      correct: boolean;
     }[];
   }[];
 

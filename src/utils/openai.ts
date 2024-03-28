@@ -3,7 +3,6 @@ import {
   ANSWER_SYSTEM,
   ANSWER_ASSISTANT,
   ANSWER_USER,
-  TEST_CONVERSATION,
   CHECK_CONVERSATION,
   QUESTION_CONVERSATION,
 } from "../constants/prompt";
@@ -99,7 +98,7 @@ export const getConversation = async (
     messages: [
       {
         role: "user",
-        content: TEST_CONVERSATION(concept, question, chats, aiNickname),
+        content: QUESTION_CONVERSATION(concept, question, chats, aiNickname),
       },
     ],
     model: "gpt-4-0125-preview",
@@ -107,7 +106,7 @@ export const getConversation = async (
 
   const answer = completion.choices.map((choice) => choice.message.content);
 
-  console.log(TEST_CONVERSATION(concept, question, chats, aiNickname));
+  console.log(QUESTION_CONVERSATION(concept, question, chats, aiNickname));
 
   return answer[0].replace(/"/g, "").trim();
 };

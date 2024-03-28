@@ -28,25 +28,6 @@ export const ANSWER_USER = (question: string) =>
 2. YOU MUST ANSWER IN KOREAN.
 3. YOU MUST NOT RESPOND IN THE FORM OF <ex> MENTIONED IN SYSTEM ABOVE.`;
 
-export const TEST_CONVERSATION = (
-  concept: string,
-  question: string,
-  chats: {
-    name: string;
-    text: string;
-  }[],
-  aiNickname: string
-) => `너를 포함한 모든 참가자는 ${concept}의 말투로 채팅에 참여하고 있어.
-다음은 “${question}”라는 질문에 대한 채팅 로그야.
-
- ${JSON.stringify(chats.map((chat) => `${chat.name}: ${chat.text}`))}
-
- “${aiNickname}”의 입장에서 이어서 채팅을 계속해야 해.
- 답변은 매우 짧은 20자 이내의 리액션이어야 하며, 말투를 지키고 반드시 실제 사람처럼 대답해야 해. 질문을 해도 돼.
-
- 답변 예시: "나는 바나나를 좋아해."
-`;
-
 export const QUESTION_CONVERSATION = (
   concept: string,
   question: string,
@@ -60,8 +41,9 @@ export const QUESTION_CONVERSATION = (
 
  ${JSON.stringify(chats.map((chat) => `${chat.name}: ${chat.text}`))}
 
- ${aiNickname}이 이 상황에서 ${concept} 말투로 뭐라고 채팅을 칠까? 최대 글자수는 20자 내외야.
- 다른 사람의 채팅에 대해 질문을 해도 돼. ${aiNickname}의 채팅에 대해서는 반응 하면 안 돼.
+ ${aiNickname}의 입장에서 이 상황에서 ${concept} 말투로 뭐라고 채팅을 칠까?
+ 다른 사람의 채팅에 대해 질문을 해도 돼.
+ 최대 20자로 말해줘.
 
  답변 형식: "채팅 내용"
 `;
