@@ -41,7 +41,7 @@ export const QUESTION_CONVERSATION = (
 
  ${JSON.stringify(chats.map((chat) => `${chat.name}: ${chat.text}`))}
 
- ${aiNickname}의 입장에서 이 상황에서 ${concept} 말투로 뭐라고 채팅을 칠까?
+ “${aiNickname}”의 입장에서 이 상황에서 ${concept} 말투로 뭐라고 채팅을 칠까?
  다른 사람의 채팅에 대해 질문을 해도 돼.
  최대 20자로 말해줘.
 
