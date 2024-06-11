@@ -70,12 +70,7 @@ const reaction = async (roomId: string) => {
   if (chatlogs.some((chat) => chat.name === room.aiNickname.name)) {
     setTimeout(async () => {
       console.log(".");
-      const check = await checkConversation(
-        room.concept.eng,
-        room.questions[room.currentQuestion],
-        chatlogs,
-        room.aiNickname.name
-      );
+      const check = await checkConversation(chatlogs, room.aiNickname.name);
       console.log(check);
       if (check === "X") {
         if (Math.random() > getRatio(room.users.length)) {
@@ -150,5 +145,5 @@ const question = async (
 
 const getRatio = (n: number) => {
   // n이 클수록 ratio 증가
-  return 1 - 0.5 / n;
+  return 0.6 - 1 / n;
 };

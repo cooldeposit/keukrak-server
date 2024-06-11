@@ -260,7 +260,7 @@ export const nextQuestion = async (ctx: Context) => {
       },
     ];
     await AppDataSource.getRepository(Room).save(sroom);
-  }, (room.currentQuestion === 0 ? 15000 : 6000) + Math.random() * 3000 + aiAnswer.length * 500);
+  }, (room.currentQuestion === 0 ? 15000 : 6000) + Math.random() * 3000 + aiAnswer.length * 800);
 };
 
 export const poll = async (ctx: Context) => {
