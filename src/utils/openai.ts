@@ -32,7 +32,7 @@ export const getAnswer = async (
         content: ANSWER_USER(question),
       },
     ],
-    model: "gpt-4-0125-preview",
+    model: "gpt-4o",
   });
 
   const answer = completion.choices.map((choice) => choice.message.content);
@@ -50,10 +50,10 @@ export const checkConversation = async (
     messages: [
       {
         role: "user",
-        content: CHECK_CONVERSATION(concept, question, chats, aiNickname),
+        content: CHECK_CONVERSATION(chats, aiNickname),
       },
     ],
-    model: "gpt-4-0125-preview",
+    model: "gpt-4o",
   });
 
   const answer = completion.choices.map((choice) => choice.message.content);
@@ -80,7 +80,7 @@ export const questionConversation = async (
         content: QUESTION_CONVERSATION(concept, question, chats, aiNickname),
       },
     ],
-    model: "gpt-3.5-turbo",
+    model: "gpt-4o",
   });
 
   const answer = completion.choices.map((choice) => choice.message.content);
@@ -101,7 +101,7 @@ export const getConversation = async (
         content: QUESTION_CONVERSATION(concept, question, chats, aiNickname),
       },
     ],
-    model: "gpt-4-0125-preview",
+    model: "gpt-4o",
   });
 
   const answer = completion.choices.map((choice) => choice.message.content);

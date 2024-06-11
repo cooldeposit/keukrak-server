@@ -49,8 +49,6 @@ export const QUESTION_CONVERSATION = (
 `;
 
 export const CHECK_CONVERSATION = (
-  concept: string,
-  question: string,
   chats: {
     name: string;
     text: string;
